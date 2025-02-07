@@ -16,3 +16,42 @@
     <script src="script.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet Connection</title>
+</head>
+<body>
+    <button id="connect-wallet">Connect Wallet</button>
+
+    <script>
+        const connectWalletButton = document.getElementById('connect-wallet');
+
+        connectWalletButton.addEventListener('click', async () => {
+            if (window.tonkeeper) {
+                // Если TON Keeper доступен
+                try {
+                    await window.tonkeeper.request({ method: 'ton_requestAccounts' });
+                    alert('TON Keeper Connected');
+                } catch (err) {
+                    alert('Error connecting to TON Keeper');
+                }
+            } else if (window.ethereum) {
+                // Если установлен TON Wallet через Ethereum
+                try {
+                    await window.ethereum.enable();  // Запрашиваем доступ к кошельку
+                    alert('TON Wallet Connected');
+                } catch (err) {
+                    alert('Error connecting to TON Wallet');
+                }
+            } else {
+                // Если ни один кошелек не установлен
+                alert('Please install TON Wallet or TON Keeper extension');
+                // Можно здесь вывести кнопку или ссылку для установки расширений
+            }
+        });
+    </script>
+</body>
+</html>
