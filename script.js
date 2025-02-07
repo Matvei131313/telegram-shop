@@ -1,6 +1,9 @@
-// Проверяем, запущено ли в Telegram
-if (window.Telegram && window.Telegram.WebApp) {
-    Telegram.WebApp.ready(); // Говорим Telegram, что мини-приложение готово
+// Проверяем, запущено ли мини-приложение в Telegram
+if (window.Telegram.WebApp) {
+    Telegram.WebApp.ready();
+    console.log("Мини-приложение загружено в Telegram!");
+} else {
+    console.log("Мини-приложение не в Telegram!");
 }
 
 // Функция для подключения кошелька
@@ -24,5 +27,5 @@ async function connectWallet() {
     }
 }
 
-// Добавляем обработчик на кнопку
+// Привязываем функцию к кнопке
 document.getElementById("wallet-button").addEventListener("click", connectWallet);
