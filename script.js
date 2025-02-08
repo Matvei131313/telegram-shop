@@ -14,6 +14,10 @@ async function connectWallet() {
                 {
                     name: "Telegram Wallet",
                     url: "https://t.me/wallet"
+                },
+                {
+                    name: "TON Space",
+                    url: "https://ton.org"
                 }
             ]
         });
