@@ -1,31 +1,34 @@
-// Проверяем, запущено ли мини-приложение в Telegram
-if (window.Telegram.WebApp) {
-    Telegram.WebApp.ready();
-    console.log("Мини-приложение загружено в Telegram!");
-} else {
-    console.log("Мини-приложение не в Telegram!");
-}
+// Импортируем TON Connect SDK
+const tonConnect = new window.TonConnect();
 
-// Функция для подключения кошелька
+// Получаем кнопку
+const walletButton = document.getElementById("wallet-button");
+
+// Функция подключения кошелька
 async function connectWallet() {
-    if (!window.ton) {
-        alert("TON Wallet не найден! Установите кошелек в Telegram.");
-        return;
-    }
-
     try {
-        const accounts = await window.ton.request({ method: "ton_requestAccounts" });
-        if (accounts && accounts.length > 0) {
-            alert(`Кошелек подключен: ${accounts[0]}`);
-            document.getElementById("wallet-button").innerText = "Wallet Connected";
-        } else {
-            alert("Подключение отменено.");
+        const wallet = await tonConnect.connectWallet({
+            modals: [
+                {
+                    name: "tonkeeper",
+                    url: "https://app.tonkeeper.com/ton-connect"
+                },
+                {
+                    name: "Telegram Wallet",
+                    url: "https://t.me/wallet"
+                }
+            ]
+        });
+
+        if (wallet) {
+            alert(`Кошелек подключен: ${wallet.account.address}`);
+            walletButton.innerText = "Wallet Connected";
         }
     } catch (error) {
-        console.error("Ошибка при подключении кошелька:", error);
-        alert("Ошибка при подключении. Проверьте кошелек.");
+        console.error("Ошибка подключения кошелька:", error);
+        alert("Не удалось подключить кошелек.");
     }
 }
 
 // Привязываем функцию к кнопке
-document.getElementById("wallet-button").addEventListener("click", connectWallet);
+walletButton.addEventListener("click", connectWallet);
