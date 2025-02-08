@@ -1,12 +1,10 @@
-// Импортируем TON Connect SDK
+// Инициализация TON Connect SDK
 const tonConnect = new window.TonConnect();
 
-// Получаем кнопку
-const walletButton = document.getElementById("wallet-button");
-
-// Функция подключения кошелька
+// Функция для открытия окна выбора кошелька
 async function connectWallet() {
     try {
+        // Открытие окна выбора кошелька
         const wallet = await tonConnect.connectWallet({
             modals: [
                 {
@@ -22,7 +20,7 @@ async function connectWallet() {
 
         if (wallet) {
             alert(`Кошелек подключен: ${wallet.account.address}`);
-            walletButton.innerText = "Wallet Connected";
+            document.getElementById("wallet-button").innerText = "Wallet Connected";
         }
     } catch (error) {
         console.error("Ошибка подключения кошелька:", error);
@@ -31,4 +29,4 @@ async function connectWallet() {
 }
 
 // Привязываем функцию к кнопке
-walletButton.addEventListener("click", connectWallet);
+document.getElementById("wallet-button").addEventListener("click", connectWallet);
